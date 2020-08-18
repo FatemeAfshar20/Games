@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+    <color name="beauty_yellow">#FEEF01</color>
+    <color name="beauty_pink">#DD8591</color>
+    <color name="beauty_pink_light">#FFD5CF</color>
+    <color name="beauty_purple_light">#745A73</color>
+    <color name="beauty_so_pl">#D0BBB6</color>
+    <color name="brown">#3E1D28</color>
+    <color name="black">#000</color>
+    <color name="white">#FFF</color>
+    <color name="red">#e50001</color>
+    <color name="green_dark">#05432a</color>
+    <color name="green">#2a741f</color>
+    <color name="green_light">#93eb23</color>
+</resources>
