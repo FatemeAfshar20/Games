@@ -10,4 +10,7 @@
     <string name="btn_tic_tac_toe">Tic Tac Toe</string>
     <string name="btn_row_a_in_4">Row a in 4</string>
     <string name="txt_game">Which game do you like to play?</string>
+    <string name="game_name">Game:TicTacToe</string>
+    <string name="score_player_one">Player One : </string>
+    <string name="score_player_two">Player Two : </string>
 </resources>

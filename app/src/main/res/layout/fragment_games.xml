@@ -35,7 +35,7 @@
             android:text="@string/btn_tic_tac_toe" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_four_in_row"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/green_dark_stroke"

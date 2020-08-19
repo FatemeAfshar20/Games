@@ -1,5 +1,6 @@
 package com.example.games.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,7 +24,8 @@ public class GamesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    public Button mBtnTicTacToe,mButFourInRow;
+    boolean mTicTacToeSelect,mFourInRowSelect;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,10 +37,23 @@ public class GamesFragment extends Fragment {
     }
 
     public void findElem(View view){
-
+        mBtnTicTacToe=view.findViewById(R.id.btn_ticetactoe);
+        mButFourInRow=view.findViewById(R.id.btn_four_in_row);
     }
 
     public void setListener(){
+            mButFourInRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mFourInRowSelect=true;
+                }
+            });
 
+            mBtnTicTacToe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mTicTacToeSelect=true;
+                }
+            });
     }
 }
