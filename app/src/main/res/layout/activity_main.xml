@@ -1,26 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    tools:context=".Controller.GamesActivity">
+    android:layout_height="match_parent"
+    tools:context=".Controller.GamesFragment">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+
+    <TextView
+        android:id="@+id/game"
         android:layout_width="match_parent"
-        android:layout_height="160dp">
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:text="@string/txt_game"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="3dp"
+        android:background="@color/colorPrimary"
+        />
 
-    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_ticetactoe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/green_light_stroke"
+            android:layout_weight="1"
+            android:text="@string/btn_tic_tac_toe" />
+
+        <Button
+            android:id="@+id/btn_four_in_row"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/green_dark_stroke"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="@string/btn_row_a_in_4" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/game_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="130dp"
         >
 
-    </FrameLayout>
+</FrameLayout>
 
-
-</LinearLayout>
+</FrameLayout>

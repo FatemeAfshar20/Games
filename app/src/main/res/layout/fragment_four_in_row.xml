@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Frame"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e2e2e2"
@@ -15,14 +15,14 @@
         android:layout_height="60dp"
         android:background="@color/blue_karboni_light"
         android:gravity="center"
-        android:text="@string/game_name"
+        android:text="@string/game_name_row"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:orientation="horizontal">
 
         <TextView
@@ -51,7 +51,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="80dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -65,40 +66,40 @@
                 android:id="@+id/btn_0"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_3"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_4"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
         </LinearLayout>
 
@@ -112,40 +113,40 @@
                 android:id="@+id/btn_5"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_6"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_7"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_8"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_9"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
         </LinearLayout>
 
@@ -159,40 +160,40 @@
                 android:id="@+id/btn_10"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_11"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_12"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_13"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_14"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
         </LinearLayout>
 
@@ -206,40 +207,40 @@
                 android:id="@+id/btn_15"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_16"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_17"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_18"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_19"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
         </LinearLayout>
 
@@ -253,40 +254,40 @@
                 android:id="@+id/btn_20"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_21"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_22"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_23"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:background="@color/green_dark"/>
+                android:layout_weight="1"
+                android:background="@color/green_dark" />
 
             <Button
                 android:id="@+id/btn_24"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
+                android:layout_weight="1"
                 android:background="@color/green_dark" />
         </LinearLayout>
     </LinearLayout>

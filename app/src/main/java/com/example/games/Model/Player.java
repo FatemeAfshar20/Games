@@ -13,10 +13,25 @@ public class Player implements Serializable {
     private  String mUserName;
     private int mScore;
     private ImageButton mImageButton;
+    private  int mColorID;
 
     public Player()  {
 
     }
+
+    public int getColorID() {
+        return mColorID;
+    }
+
+    public void setColorID(int colorID) {
+        mColorID = colorID;
+    }
+
+    public void setId(UUID id) {
+        mId = id;
+    }
+
+
 
     public UUID getId() {
         return mId;
