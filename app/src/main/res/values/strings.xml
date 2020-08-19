@@ -7,4 +7,7 @@
     <string name="player_one">Player One</string>
     <string name="toast_username_players">UserName can not be Number or null</string>
     <string name="toast_wrong">Please Enter right Username</string>
+    <string name="btn_tic_tac_toe">Tic Tac Toe</string>
+    <string name="btn_row_a_in_4">Row a in 4</string>
+    <string name="txt_game">Which game do you like to play?</string>
 </resources>

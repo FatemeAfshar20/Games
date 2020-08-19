@@ -13,7 +13,6 @@ public class GamesActivity extends AppCompatActivity {
     GamesFragment mGamesFragment=new GamesFragment();
     UserLoginFragment mUserLoginFragment=new UserLoginFragment();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -6,23 +6,42 @@
     tools:context=".Controller.GamesFragment">
 
 
+    <TextView
+        android:id="@+id/game"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:text="@string/txt_game"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="3dp"
+        android:background="@color/colorPrimary"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_ticetactoe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/green_light_stroke"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="@string/btn_tic_tac_toe" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/green_dark_stroke"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="@string/btn_row_a_in_4" />
     </LinearLayout>
+
 </FrameLayout>
