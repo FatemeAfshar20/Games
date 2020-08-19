@@ -12,7 +12,7 @@ public class GamesActivity extends AppCompatActivity {
     FragmentManager mFragmentManager=getSupportFragmentManager();
     GamesFragment mGamesFragment=new GamesFragment();
     UserLoginFragment mUserLoginFragment=new UserLoginFragment();
-    //Fragment fragment = mFragmentManager.findFragmentById(R.id.user_login_Fragment);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

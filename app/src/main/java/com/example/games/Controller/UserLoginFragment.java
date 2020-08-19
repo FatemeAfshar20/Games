@@ -62,8 +62,8 @@ public class UserLoginFragment extends Fragment {
                     intent.putExtra(EXTRA_PLAYER_ONE_USERNAME,mPlayerOne.getUserName());
                     intent.putExtra(EXTRA_PLAYER_TWO_USERNAME,mPlayerTwo.getUserName());
                     startActivity(intent);
-                }
-                returnToast(R.string.toast_wrong);
+                }else
+                    returnToast(R.string.toast_wrong);
             }
         });
     }
@@ -71,15 +71,10 @@ public class UserLoginFragment extends Fragment {
     private boolean checkAndSetPlayers() {
         try{
             mPlayerOne.setUserName(mNamePlayerOne.getEditText().getText().toString());
+            mPlayerTwo.setUserName(mNamePlayerOne.getEditText().getText().toString());
         }catch (Exception e){
-            returnToast(R.string.toast_username_p1_wrong);
+            returnToast(R.string.toast_username_players);
             return false;
-        }
-
-        try{
-            mPlayerTwo.setUserName(mNamePlayerTwo.getEditText().getText().toString());
-        }catch (Exception e){
-            returnToast(R.string.toast_username_p2_wrong);
         }
         return true;
     }

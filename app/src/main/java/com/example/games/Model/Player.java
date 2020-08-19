@@ -32,7 +32,7 @@ public class Player implements Serializable {
     }
 
     public void setUserName(String userName) throws  InputMismatch {
-        if(isNumeric(userName.trim()) && userName=="")
+        if(isNumeric(userName.trim()) && userName.equals(""))
            throw new InputMismatch("Wrong Input");
         mUserName = userName;
     }
