@@ -59,18 +59,17 @@
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+
+        <com.varunest.sparkbutton.SparkButton
             android:id="@+id/btn_go"
+            android:layout_margin="20dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/buton_go"
-            android:text="@string/go_btn"
-            android:textSize="20dp"
-            android:textColor="#fff"
+            app:sparkbutton_activeImage="@drawable/active"
+            app:sparkbutton_iconSize="100dp"
+            app:sparkbutton_primaryColor="@color/beauty_yellow"
+            app:sparkbutton_secondaryColor="@color/red" />
 
-            />
 
     </LinearLayout>
 </LinearLayout>

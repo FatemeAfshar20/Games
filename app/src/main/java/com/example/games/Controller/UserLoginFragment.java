@@ -25,7 +25,7 @@ public class UserLoginFragment extends Fragment {
     private Player mPlayerTwo=new Player();
 
     private com.google.android.material.textfield.TextInputLayout mNamePlayerOne,mNamePlayerTwo;
-    private Button mBtnGo;
+    private com.varunest.sparkbutton.SparkButton mBtnGo;
 
     public UserLoginFragment(){
         // Required empty public constructor
