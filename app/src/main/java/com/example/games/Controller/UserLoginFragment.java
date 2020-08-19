@@ -21,13 +21,13 @@ import java.util.InputMismatchException;
 public class UserLoginFragment extends Fragment {
     public static final String EXTRA_PLAYER_ONE_USERNAME = "Player One User Name";
     public static final String EXTRA_PLAYER_TWO_USERNAME = "Player Two User Name";
-    private Player mPlayerOne;
-    private Player mPlayerTwo;
+    private Player mPlayerOne=new Player();
+    private Player mPlayerTwo=new Player();
 
     private com.google.android.material.textfield.TextInputLayout mNamePlayerOne,mNamePlayerTwo;
     private Button mBtnGo;
 
-    public UserLoginFragment() {
+    public UserLoginFragment(){
         // Required empty public constructor
     }
 

@@ -14,8 +14,8 @@ public class UserLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
-/*
+
         if(mUserLoginFragment!=null)
-            mFragmentManager.beginTransaction().add(R.id.user_login_Fragment,mUserLoginFragment);*/
+            mFragmentManager.beginTransaction().add(R.id.user_login_Fragment,mUserLoginFragment).commit();
     }
 }

@@ -14,9 +14,8 @@ public class Player implements Serializable {
     private int mScore;
     private ImageButton mImageButton;
 
-    public Player(String userName, ImageButton imageButton) throws InputMismatch {
-        setUserName(userName);
-        mImageButton=imageButton;
+    public Player()  {
+
     }
 
     public UUID getId() {
@@ -33,7 +32,7 @@ public class Player implements Serializable {
     }
 
     public void setUserName(String userName) throws  InputMismatch {
-        if(isNumeric(userName.trim()))
+        if(isNumeric(userName.trim()) && userName=="")
            throw new InputMismatch("Wrong Input");
         mUserName = userName;
     }
