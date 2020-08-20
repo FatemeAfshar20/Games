@@ -8,15 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.games.Model.Player;
 import com.example.games.R;
-import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.InputMismatchException;
 
 public class UserLoginFragment extends Fragment {
     public static final String EXTRA_PLAYER_ONE_USERNAME = "Player One User Name";
@@ -57,7 +52,10 @@ public class UserLoginFragment extends Fragment {
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkAndSetPlayers()){
+                if(checkPlayer(mNamePlayerOne.getEditText().getText().toString()) &&
+                        checkPlayer(mNamePlayerTwo.getEditText().getText().toString())){
+                    setPlayers(mPlayerOne,mNamePlayerOne.getEditText().getText().toString());
+                    setPlayers(mPlayerTwo,mNamePlayerTwo.getEditText().getText().toString());
                     Intent intent=new Intent(getActivity(),GamesActivity.class);
                     intent.putExtra(EXTRA_PLAYER_ONE_USERNAME,mPlayerOne.getUserName());
                     intent.putExtra(EXTRA_PLAYER_TWO_USERNAME,mPlayerTwo.getUserName());
@@ -68,18 +66,28 @@ public class UserLoginFragment extends Fragment {
         });
     }
 
-    private boolean checkAndSetPlayers() {
-        try{
-            mPlayerOne.setUserName(mNamePlayerOne.getEditText().getText().toString());
-            mPlayerTwo.setUserName(mNamePlayerOne.getEditText().getText().toString());
-        }catch (Exception e){
+    private boolean checkPlayer(String str) {
+            if(!isNumeric(str) && !str.equals("")) {
+                    return true;
+            }
             returnToast(R.string.toast_username_players);
             return false;
-        }
-        return true;
+    }
+
+    private void setPlayers(Player player,String userName){
+        player.setUserName(userName);
     }
 
     private void returnToast(int strId) {
         Toast.makeText(getActivity(),strId,Toast.LENGTH_LONG).show();
     }
+
+    private static boolean isNumeric(String strNum) {
+        for (char c : strNum.toCharArray()) {
+            if (!Character.isDigit(c))
+                return false;
+        }
+        return true;
+    }
+
 }

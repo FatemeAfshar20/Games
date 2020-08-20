@@ -1,19 +1,17 @@
 package com.example.games.Model;
 
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.graphics.drawable.Drawable;
 
 import java.io.Serializable;
-import java.util.InputMismatchException;
 import java.util.UUID;
 
 public class Player implements Serializable {
     private UUID mId=UUID.randomUUID();
     private  String mUserName;
-    private int mScore;
-    private ImageButton mImageButton;
+    private int mScore=0;
+    private Drawable mImage;
     private  int mColorID;
+
 
     public Player()  {
 
@@ -31,24 +29,23 @@ public class Player implements Serializable {
         mId = id;
     }
 
-
-
     public UUID getId() {
         return mId;
     }
 
-    public ImageButton getImageButton() {
-        return mImageButton;
+    public void setImage(Drawable image) {
+        mImage = image;
     }
 
+    public Drawable getImage() {
+        return mImage;
+    }
 
     public String getUserName() {
         return mUserName;
     }
 
-    public void setUserName(String userName) throws  InputMismatch {
-        if(isNumeric(userName.trim()) && userName.equals(""))
-           throw new InputMismatch("Wrong Input");
+    public void setUserName(String userName)  {
         mUserName = userName;
     }
 
@@ -60,18 +57,4 @@ public class Player implements Serializable {
         mScore = score;
     }
 
-    private static boolean isNumeric(String strNum) {
-        for (char c : strNum.toCharArray()) {
-            if (!Character.isDigit(c))
-                return false;
-        }
-        return true;
-    }
-
-    private static class InputMismatch extends Exception{
-        String msg;
-        public InputMismatch(String msg){
-                //todo
-        }
-    }
 }

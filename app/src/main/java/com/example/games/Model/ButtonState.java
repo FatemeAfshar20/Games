@@ -8,7 +8,7 @@ import java.util.UUID;
 public class ButtonState {
     private UUID mId=UUID.randomUUID();
     private ImageButton mBtn;
-    private boolean isSelect;
+    private boolean isSelect=false;
 
     public UUID getId() {
         return mId;
