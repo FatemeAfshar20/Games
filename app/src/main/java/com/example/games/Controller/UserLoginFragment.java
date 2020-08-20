@@ -14,8 +14,8 @@ import com.example.games.Model.Player;
 import com.example.games.R;
 
 public class UserLoginFragment extends Fragment {
-    public static final String EXTRA_PLAYER_ONE_USERNAME = "Player One User Name";
-    public static final String EXTRA_PLAYER_TWO_USERNAME = "Player Two User Name";
+    public static final String EXTRA_PLAYER_ONE_USERNAME = "com.example.games.Controller.Player One User Name";
+    public static final String EXTRA_PLAYER_TWO_USERNAME = "com.example.games.Controller.Player Two User Name";
     private Player mPlayerOne=new Player();
     private Player mPlayerTwo=new Player();
 
@@ -43,8 +43,8 @@ public class UserLoginFragment extends Fragment {
     }
 
     public void findElem(View view){
-        mNamePlayerOne= view.findViewById(R.id.player_one);
-        mNamePlayerTwo=view.findViewById(R.id.player_two);
+        mNamePlayerOne= view.findViewById(R.id.player_two);
+        mNamePlayerTwo=view.findViewById(R.id.player_one);
         mBtnGo=view.findViewById(R.id.btn_go);
     }
 

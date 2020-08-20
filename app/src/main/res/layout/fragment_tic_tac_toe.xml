@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="@string/score_player_one"
+            android:text="@string/player_two"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -41,12 +41,14 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:padding="10dp"
-            android:text="@string/player_two"
+            android:text="@string/score_player_one"
             android:textColor="@color/black"
             android:textSize="20sp" />
+
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/game_btns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
@@ -57,31 +59,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/img_0"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                 />
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                android:layout_marginRight="3dp"
                 android:layout_marginLeft="3dp"
-                />
+                android:layout_marginRight="3dp"
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
         </LinearLayout>
 
@@ -97,8 +95,7 @@
                 android:id="@+id/img_3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_4"
@@ -106,15 +103,13 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_5"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
         </LinearLayout>
 
@@ -128,8 +123,7 @@
                 android:id="@+id/img_6"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_7"
@@ -137,15 +131,28 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
 
             <Button
                 android:id="@+id/img_8"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/yellow_green"
-                />
+                android:background="@color/yellow_green" />
         </LinearLayout>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/refresh"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@color/green_dark"
+        android:padding="10dp"
+        android:visibility="gone"
+        />
 </FrameLayout>

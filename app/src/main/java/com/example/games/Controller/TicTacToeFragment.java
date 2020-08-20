@@ -1,5 +1,6 @@
 package com.example.games.Controller;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -11,20 +12,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.games.Model.ButtonState;
 import com.example.games.Model.Player;
 import com.example.games.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.reflect.Field;
 
 public class TicTacToeFragment extends Fragment {
 
     TextView mPlayerOneName, mPlayerTwoName;
+    Button mBtnRefresh;
     private Button[] mButtons = new Button[9];
     int[] mResId = createId(mButtons, "img_");
     Player mPlayerOne = new Player();
     Player mPlayerTwo = new Player();
+    ViewGroup mBtnsLay;
     int counter = 0;
 
     public TicTacToeFragment() {
@@ -68,6 +73,10 @@ public class TicTacToeFragment extends Fragment {
 
         mPlayerOneName = view.findViewById(R.id.score_player_one);
         mPlayerTwoName = view.findViewById(R.id.score_player_two);
+
+        mBtnRefresh=view.findViewById(R.id.btn_refresh);
+
+        mBtnsLay=view.findViewById(R.id.game_btns);
     }
 
     private void setListeners() {
@@ -86,12 +95,21 @@ public class TicTacToeFragment extends Fragment {
                     }
                     mButtons[finalI].setEnabled(false);
 
-                    if(counter==mButtons.length-1)
-                        mPlayerOneName.setText(mPlayerOneName.getText()+"   "+setScore());
+                    if (counter == mButtons.length) {
+                        checkWinner();
+                        mBtnRefresh.setVisibility(View.VISIBLE);
+                        mBtnsLay.setVisibility(View.INVISIBLE);
+                    }
+
                 }
 
             });
-
+        mBtnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshGame();
+            }
+        });
         }
     }
 
@@ -115,26 +133,53 @@ public class TicTacToeFragment extends Fragment {
     }
 
     private void checkWinner() {
+        if ( calculateScore(mPlayerOne) >calculateScore(mPlayerTwo)) {
+            returnSnackbar("Horaaaaaa " + mPlayerOne.getUserName() + " is Winner");
 
+            mPlayerOneName.setText(mPlayerOneName.getText()+"   Winner!!");
+            mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
+        }
+        else if(calculateScore(mPlayerOne)<calculateScore(mPlayerTwo)) {
+            returnSnackbar("Horaaaaaa " + mPlayerTwo.getUserName() + " is Winner");
 
+            mPlayerTwoName.setText(mPlayerTwoName.getText()+"   Winner!!");
+            mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
+        }
+        else {
+            returnSnackbar(mPlayerOne.getUserName() + " and " + mPlayerTwo.getUserName() + " are Winner");
 
+            mPlayerOneName.setText(mPlayerOneName.getText()+"   Winner!!");
+            mPlayerTwoName.setText(mPlayerTwoName.getText()+"   Winner!!");
+            mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
+            mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
+        }
     }
 
-    private int setScore(){
-        if (inRow(mButtons[0].getBackground(),mButtons[1].getBackground(),mButtons[2].getBackground(),mPlayerOne.getImage())) {
-            mPlayerOne.setScore(mPlayerOne.getScore() + 1);
+    public void returnSnackbar(String msg){
+        Snackbar snackbar=Snackbar.make(getView(),msg,Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
+    private int calculateScore(Player player) {
+        int score = 0;
+        if (inRow(mButtons[0].getBackground(), mButtons[1].getBackground(), mButtons[2].getBackground(), player.getImage())) {
+            score++;
+        } else if (inRow(mButtons[3].getBackground(), mButtons[4].getBackground(), mButtons[5].getBackground(), player.getImage())) {
+            score++;
+        } else if (inRow(mButtons[6].getBackground(), mButtons[7].getBackground(), mButtons[8].getBackground(), player.getImage())) {
+            score++;
+        } else if (inRow(mButtons[2].getBackground(), mButtons[4].getBackground(), mButtons[6].getBackground(), player.getImage())) {
+            score++;
+        } else if (inRow(mButtons[0].getBackground(), mButtons[4].getBackground(), mButtons[8].getBackground(), player.getImage())) {
+            score++;
+        }else if(inRow(mButtons[0].getBackground(), mButtons[3].getBackground(), mButtons[6].getBackground(), player.getImage())){
+            score++;
+        }else if(inRow(mButtons[2].getBackground(), mButtons[5].getBackground(), mButtons[8].getBackground(), player.getImage())){
+            score++;
+        }else if(inRow(mButtons[1].getBackground(), mButtons[4].getBackground(), mButtons[7].getBackground(), player.getImage())){
+            score++;
         }
-        else if(inRow(mButtons[3].getBackground(),mButtons[4].getBackground(),mButtons[5].getBackground(),mPlayerOne.getImage()))
-        {
-            mPlayerOne.setScore(mPlayerOne.getScore() + 1);
-        }else if(inRow(mButtons[6].getBackground(),mButtons[7].getBackground(),mButtons[8].getBackground(),mPlayerOne.getImage())){
-            mPlayerOne.setScore(mPlayerOne.getScore()+1);
-        }else if(inRow(mButtons[2].getBackground(),mButtons[4].getBackground(),mButtons[6].getBackground(),mPlayerOne.getImage())){
-            mPlayerOne.setScore(mPlayerOne.getScore()+1);
-        }else if(inRow(mButtons[0].getBackground(),mButtons[4].getBackground(),mButtons[8].getBackground(),mPlayerOne.getImage())){
-            mPlayerOne.setScore(mPlayerOne.getScore()+1);
-        }
-        return mPlayerOne.getScore();
+        return score;
     }
 
     private boolean inRow(Drawable one, Drawable two, Drawable three, Drawable designId) {
@@ -142,5 +187,25 @@ public class TicTacToeFragment extends Fragment {
             return true;
 
         return false;
+    }
+
+    private void refreshGame(){
+        for (int i = 0; i < mButtons.length; i++) {
+            mButtons[i].setBackgroundColor(getResources().getColor(R.color.yellow_green));
+            mButtons[i].setEnabled(true);
+        }
+
+        counter=0;
+        mPlayerOne.setScore(0);
+        mPlayerTwo.setScore(0);
+
+        mPlayerOneName.setText(mPlayerOne.getUserName() + "");
+        mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");
+
+        mPlayerOneName.setTextColor(Color.BLACK);
+        mPlayerTwoName.setTextColor(Color.BLACK);
+
+        mBtnRefresh.setVisibility(View.GONE);
+        mBtnsLay.setVisibility(View.VISIBLE);
     }
 }
