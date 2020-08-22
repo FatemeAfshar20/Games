@@ -12,6 +12,8 @@ import android.widget.Button;
 
 import com.example.games.R;
 
+import java.lang.reflect.Field;
+
 public class GamesActivity extends AppCompatActivity {
     FragmentManager mFragmentManager = getSupportFragmentManager();
     //GamesFragment mGamesFragment=new GamesFragment();

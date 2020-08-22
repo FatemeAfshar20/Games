@@ -1,5 +1,6 @@
 package com.example.games.Controller;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.games.Model.ButtonState;
@@ -17,13 +20,18 @@ import com.example.games.R;
 import java.lang.reflect.Field;
 
 public class FourInRowFragment extends Fragment {
-    int mNumBtn=25;
+    int mNumBtn = 5;
     TextView mPlayerOneName, mPlayerTwoName;
-    private Button[] mButtons=new Button[mNumBtn];
-    int[] mResId=createId(mButtons,"btn_");
-    Player mPlayerOne=new Player();
-    Player mPlayerTwo =new Player();
-    int counter=0;
+    private ImageButton mBtnGo, mBtnStart;
+    private Button[][] mButtons = new Button[mNumBtn][mNumBtn];
+    int[][] mResId = createId(mButtons, "btn_");
+    Player mPlayerOne = new Player();
+    Player mPlayerTwo = new Player();
+    EditText mPlayerOneText, mPlayerTwoText;
+    int counter = 0;
+    int mColumnSelected;
+    int index = mNumBtn;
+
     public FourInRowFragment() {
         // Required empty public constructor
     }
@@ -37,7 +45,7 @@ public class FourInRowFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_four_in_row, container, false);
+        View view = inflater.inflate(R.layout.fragment_four_in_row, container, false);
         findElem(view);
         setPlayers();
         setListeners();
@@ -54,46 +62,90 @@ public class FourInRowFragment extends Fragment {
         mPlayerTwo.setColorID(R.color.brown_light);
 
         // set Player Name in TextView
-        mPlayerOneName.setText(mPlayerOne.getUserName()+"");
-        mPlayerTwoName.setText(mPlayerTwo.getUserName()+"");
+        mPlayerOneName.setText(mPlayerOne.getUserName() + "");
+        mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");
     }
 
-    private void findElem(View view){
-        for(int i=0;i<mButtons.length;i++){
-            mButtons[i]=view.findViewById(mResId[i]);
+    private void findElem(View view) {
+        for (int i = 0; i < mButtons.length; i++) {
+            for (int j = 0; j < mButtons.length; j++) {
+                mButtons[i][j] = view.findViewById(mResId[i][j]);
+            }
         }
 
-        mPlayerOneName =view.findViewById(R.id.score_player_one);
-        mPlayerTwoName =view.findViewById(R.id.score_player_two);
+        mPlayerOneName = view.findViewById(R.id.score_player_one);
+        mPlayerTwoName = view.findViewById(R.id.score_player_two);
+        mPlayerOneText = view.findViewById(R.id.player_one_column);
+        mPlayerTwoText = view.findViewById(R.id.player_two_column);
+        mBtnGo = view.findViewById(R.id.btn_go);
+        mBtnStart = view.findViewById(R.id.btn_start);
     }
 
-    private void setListeners(){
-        for (int i = 0; i <mButtons.length ; i++) {
+    private void setListeners() {
 
-            final int finalI = i;
-            mButtons[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    counter++;
-                    if (counter % 2 == 0) {
-                        mButtons[finalI].setBackgroundResource(mPlayerOne.getColorID());
 
-                    } else {
-                        mButtons[finalI].setBackgroundResource(mPlayerTwo.getColorID());
+        mBtnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Player player;
+                if (counter % 2 == 0) {
+                    enableHandle(mPlayerTwoText, mPlayerOneText);
+                    player = mPlayerTwo;
+                    mColumnSelected = Integer.parseInt(mPlayerOneText.getText().toString());
+                    mPlayerOneText.setText("");
+                } else {
+                    enableHandle(mPlayerOneText, mPlayerTwoText);
+                    mColumnSelected = Integer.parseInt(mPlayerTwoText.getText().toString());
+                    player = mPlayerOne;
+                    mPlayerTwoText.setText("");
+                }
+                counter++;
+
+                for (int i = mButtons.length - 1; i >= 0; i--) {
+                    if (mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.green_dark)
+                            && mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.red)
+                            && mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.beauty_yellow)) {
+                        //   mButtons[mColumnSelected][i].setText("selected");
+                        if (player == mPlayerOne) {
+                            mButtons[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.red));
+                            mButtons[i][mColumnSelected].setTextColor(getResources().getColor(R.color.red));
+                            index = i;
+                            break;
+                        } else {
+                            mButtons[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
+                            mButtons[i][mColumnSelected].setTextColor(getResources().getColor(R.color.beauty_yellow));
+                            index = i;
+                            break;
+                        }
                     }
-                    mButtons[finalI].setEnabled(false);
+
                 }
 
-            });
+            }
 
-        }
+            private void enableHandle(EditText playerEnable, EditText playerDisable) {
+                playerDisable.setEnabled(false);
+                playerEnable.setEnabled(true);
+            }
+        });
+
+        mBtnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPlayerOneText.setEnabled(true);
+                mBtnStart.setVisibility(View.GONE);
+            }
+        });
+
     }
 
-    private <T extends View> int[] createId(View[] views, String commonPartOfId) {
-        int[] IDs = new int[views.length];
+    private <T extends View> int[][] createId(T[][] views, String commonPartOfId) {
+        int[][] IDs = new int[views.length][views.length];
         for (int i = 0; i < views.length; i++) {
-            int tempt = getId(commonPartOfId + i, R.id.class);
-            IDs[i] = tempt;
+            for (int j = 0; j < views.length; j++) {
+                int tempt = getId(commonPartOfId + i, R.id.class);
+                IDs[i][j] = tempt;
+            }
         }
         return IDs;
     }
@@ -108,7 +160,7 @@ public class FourInRowFragment extends Fragment {
         }
     }
 
-    public void checkWinner(){
+    public void checkWinner() {
 
     }
 }
