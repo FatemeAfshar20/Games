@@ -20,11 +20,13 @@ import com.example.games.R;
 import java.lang.reflect.Field;
 
 public class FourInRowFragment extends Fragment {
-    int mNumBtn = 5;
+    int mNumBtn = 25;
     TextView mPlayerOneName, mPlayerTwoName;
     private ImageButton mBtnGo, mBtnStart;
-    private Button[][] mButtons = new Button[mNumBtn][mNumBtn];
-    int[][] mResId = createId(mButtons, "btn_");
+    private Button[] mButtons = new Button[mNumBtn];
+    int[] mResId = createId(mButtons, "btn_");
+    boolean[][] isSelected=new boolean[mNumBtn][mNumBtn];
+    Button[][] mButtons2D;
     Player mPlayerOne = new Player();
     Player mPlayerTwo = new Player();
     EditText mPlayerOneText, mPlayerTwoText;
@@ -49,6 +51,8 @@ public class FourInRowFragment extends Fragment {
         findElem(view);
         setPlayers();
         setListeners();
+        isSelected(isSelected);
+        mButtons2D=make2DArrayBtns(mNumBtn);
         return view;
     }
 
@@ -68,9 +72,7 @@ public class FourInRowFragment extends Fragment {
 
     private void findElem(View view) {
         for (int i = 0; i < mButtons.length; i++) {
-            for (int j = 0; j < mButtons.length; j++) {
-                mButtons[i][j] = view.findViewById(mResId[i][j]);
-            }
+                    mButtons[i]=view.findViewById(mResId[i]);
         }
 
         mPlayerOneName = view.findViewById(R.id.score_player_one);
@@ -79,6 +81,18 @@ public class FourInRowFragment extends Fragment {
         mPlayerTwoText = view.findViewById(R.id.player_two_column);
         mBtnGo = view.findViewById(R.id.btn_go);
         mBtnStart = view.findViewById(R.id.btn_start);
+    }
+
+    public Button[][] make2DArrayBtns(int numBtn){
+        Button[][] btnArray2D=new Button[5][5];
+        index=0;
+        for (int i = 0; i <5 ; i++) {
+            for (int j = 0; j <5 ; j++) {
+                btnArray2D[i][j]=mButtons[index];
+                index++;
+            }
+        }
+        return btnArray2D;
     }
 
     private void setListeners() {
@@ -101,22 +115,17 @@ public class FourInRowFragment extends Fragment {
                 }
                 counter++;
 
-                for (int i = mButtons.length - 1; i >= 0; i--) {
-                    if (mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.green_dark)
-                            && mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.red)
-                            && mButtons[i][mColumnSelected].getSolidColor() != getResources().getColor(R.color.beauty_yellow)) {
-                        //   mButtons[mColumnSelected][i].setText("selected");
+               for (int i = mButtons2D.length - 1; i >= 0; i--) {
+                    if (!isSelected[i][mColumnSelected]) {
+                         isSelected[i][mColumnSelected]=true;
                         if (player == mPlayerOne) {
-                            mButtons[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.red));
-                            mButtons[i][mColumnSelected].setTextColor(getResources().getColor(R.color.red));
-                            index = i;
-                            break;
+                            mButtons2D[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.red));
+                            mButtons2D[i][mColumnSelected].setTextColor(getResources().getColor(R.color.red));
                         } else {
-                            mButtons[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
-                            mButtons[i][mColumnSelected].setTextColor(getResources().getColor(R.color.beauty_yellow));
-                            index = i;
-                            break;
+                            mButtons2D[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
+                            mButtons2D[i][mColumnSelected].setTextColor(getResources().getColor(R.color.beauty_yellow));
                         }
+                        break;
                     }
 
                 }
@@ -139,13 +148,12 @@ public class FourInRowFragment extends Fragment {
 
     }
 
-    private <T extends View> int[][] createId(T[][] views, String commonPartOfId) {
-        int[][] IDs = new int[views.length][views.length];
+    private <T extends View> int[] createId(T[] views, String commonPartOfId) {
+        int[] IDs = new int[views.length];
         for (int i = 0; i < views.length; i++) {
-            for (int j = 0; j < views.length; j++) {
                 int tempt = getId(commonPartOfId + i, R.id.class);
-                IDs[i][j] = tempt;
-            }
+                IDs[i] = tempt;
+
         }
         return IDs;
     }
@@ -157,6 +165,14 @@ public class FourInRowFragment extends Fragment {
         } catch (Exception e) {
             throw new RuntimeException("No resource ID found for: "
                     + resourceName + " / " + c, e);
+        }
+    }
+
+    void isSelected(boolean[][] booleans){
+        for (int i = 0; i <booleans.length ; i++) {
+            for (int j = 0; j <booleans.length ; j++) {
+                booleans[i][j]=false;
+            }
         }
     }
 
