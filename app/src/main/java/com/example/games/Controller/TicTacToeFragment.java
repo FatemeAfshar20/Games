@@ -10,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.games.Model.ButtonState;
 import com.example.games.Model.Player;
 import com.example.games.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -23,14 +20,13 @@ import java.lang.reflect.Field;
 
 public class TicTacToeFragment extends Fragment {
 
-    TextView mPlayerOneName, mPlayerTwoName;
-    Button mBtnRefresh;
+    private TextView mPlayerOneName, mPlayerTwoName;
+    private Button mBtnRefresh;
     private Button[] mButtons = new Button[9];
-    int[] mResId = createId(mButtons, "img_");
-    Player mPlayerOne = new Player();
-    Player mPlayerTwo = new Player();
-    ViewGroup mBtnsLay;
-    int counter = 0;
+    private int[] mResId = createId(mButtons, "img_");
+    private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
+    private ViewGroup mBtnsLay;
+    private int mCounter = 0;
 
     public TicTacToeFragment() {
         // Required empty public constructor
@@ -74,9 +70,9 @@ public class TicTacToeFragment extends Fragment {
         mPlayerOneName = view.findViewById(R.id.score_player_one);
         mPlayerTwoName = view.findViewById(R.id.score_player_two);
 
-        mBtnRefresh=view.findViewById(R.id.btn_refresh);
+        mBtnRefresh = view.findViewById(R.id.btn_refresh);
 
-        mBtnsLay=view.findViewById(R.id.game_btns);
+        mBtnsLay = view.findViewById(R.id.game_btns);
     }
 
     private void setListeners() {
@@ -86,8 +82,8 @@ public class TicTacToeFragment extends Fragment {
             mButtons[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    counter++;
-                    if (counter % 2 == 0) {
+                    mCounter++;
+                    if (mCounter % 2 == 0) {
                         mButtons[finalI].setBackground(mPlayerOne.getImage());
 
                     } else {
@@ -95,7 +91,7 @@ public class TicTacToeFragment extends Fragment {
                     }
                     mButtons[finalI].setEnabled(false);
 
-                    if (counter == mButtons.length) {
+                    if (mCounter == mButtons.length) {
                         checkWinner();
                         mBtnRefresh.setVisibility(View.VISIBLE);
                         mBtnsLay.setVisibility(View.INVISIBLE);
@@ -104,12 +100,12 @@ public class TicTacToeFragment extends Fragment {
                 }
 
             });
-        mBtnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshGame();
-            }
-        });
+            mBtnRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refreshGame();
+                }
+            });
         }
     }
 
@@ -133,30 +129,28 @@ public class TicTacToeFragment extends Fragment {
     }
 
     private void checkWinner() {
-        if ( calculateScore(mPlayerOne) >calculateScore(mPlayerTwo)) {
+        if (calculateScore(mPlayerOne) > calculateScore(mPlayerTwo)) {
             returnSnackbar("Horaaaaaa " + mPlayerOne.getUserName() + " is Winner");
 
-            mPlayerOneName.setText(mPlayerOneName.getText()+"   Winner!!");
+            mPlayerOneName.setText(mPlayerOneName.getText() + "   Winner!!");
             mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
-        }
-        else if(calculateScore(mPlayerOne)<calculateScore(mPlayerTwo)) {
+        } else if (calculateScore(mPlayerOne) < calculateScore(mPlayerTwo)) {
             returnSnackbar("Horaaaaaa " + mPlayerTwo.getUserName() + " is Winner");
 
-            mPlayerTwoName.setText(mPlayerTwoName.getText()+"   Winner!!");
+            mPlayerTwoName.setText(mPlayerTwoName.getText() + "   Winner!!");
             mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
-        }
-        else {
+        } else {
             returnSnackbar(mPlayerOne.getUserName() + " and " + mPlayerTwo.getUserName() + " are Winner");
 
-            mPlayerOneName.setText(mPlayerOneName.getText()+"   Winner!!");
-            mPlayerTwoName.setText(mPlayerTwoName.getText()+"   Winner!!");
+            mPlayerOneName.setText(mPlayerOneName.getText() + "   Winner!!");
+            mPlayerTwoName.setText(mPlayerTwoName.getText() + "   Winner!!");
             mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
             mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
         }
     }
 
-    public void returnSnackbar(String msg){
-        Snackbar snackbar=Snackbar.make(getView(),msg,Snackbar.LENGTH_LONG);
+    public void returnSnackbar(String msg) {
+        Snackbar snackbar = Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
 
@@ -172,11 +166,11 @@ public class TicTacToeFragment extends Fragment {
             score++;
         } else if (inRow(mButtons[0].getBackground(), mButtons[4].getBackground(), mButtons[8].getBackground(), player.getImage())) {
             score++;
-        }else if(inRow(mButtons[0].getBackground(), mButtons[3].getBackground(), mButtons[6].getBackground(), player.getImage())){
+        } else if (inRow(mButtons[0].getBackground(), mButtons[3].getBackground(), mButtons[6].getBackground(), player.getImage())) {
             score++;
-        }else if(inRow(mButtons[2].getBackground(), mButtons[5].getBackground(), mButtons[8].getBackground(), player.getImage())){
+        } else if (inRow(mButtons[2].getBackground(), mButtons[5].getBackground(), mButtons[8].getBackground(), player.getImage())) {
             score++;
-        }else if(inRow(mButtons[1].getBackground(), mButtons[4].getBackground(), mButtons[7].getBackground(), player.getImage())){
+        } else if (inRow(mButtons[1].getBackground(), mButtons[4].getBackground(), mButtons[7].getBackground(), player.getImage())) {
             score++;
         }
         return score;
@@ -189,13 +183,13 @@ public class TicTacToeFragment extends Fragment {
         return false;
     }
 
-    private void refreshGame(){
+    private void refreshGame() {
         for (int i = 0; i < mButtons.length; i++) {
             mButtons[i].setBackgroundColor(getResources().getColor(R.color.yellow_green));
             mButtons[i].setEnabled(true);
         }
 
-        counter=0;
+        mCounter = 0;
         mPlayerOne.setScore(0);
         mPlayerTwo.setScore(0);
 
