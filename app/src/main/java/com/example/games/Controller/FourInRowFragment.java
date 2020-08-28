@@ -1,6 +1,5 @@
 package com.example.games.Controller;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,27 +11,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.games.Model.ButtonState;
 import com.example.games.Model.Player;
 import com.example.games.R;
 
 import java.lang.reflect.Field;
 
 public class FourInRowFragment extends Fragment {
-    int mNumBtn = 25;
-    TextView mPlayerOneName, mPlayerTwoName;
+   private int mNumBtn = 25;
+    private TextView mPlayerOneName, mPlayerTwoName;
     private ImageButton mBtnGo, mBtnStart;
     private Button[] mButtons = new Button[mNumBtn];
-    int[] mResId = createId(mButtons, "btn_");
-    boolean[][] isSelected=new boolean[mNumBtn][mNumBtn];
-    Button[][] mButtons2D;
-    Player mPlayerOne = new Player();
-    Player mPlayerTwo = new Player();
-    EditText mPlayerOneText, mPlayerTwoText;
-    int counter = 0;
-    int mColumnSelected;
-    int index = mNumBtn;
+    private int[] mResId = createId(mButtons, "btn_");
+    private boolean[][] isSelected = new boolean[mNumBtn][mNumBtn];
+    private Button[][] mButtons2D;
+    private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
+    private EditText mPlayerOneText, mPlayerTwoText;
+    private int mCounter = 0,mColumnSelected;
+    private int[][] mSelected=new int[5][5];
 
     public FourInRowFragment() {
         // Required empty public constructor
@@ -52,7 +49,7 @@ public class FourInRowFragment extends Fragment {
         setPlayers();
         setListeners();
         isSelected(isSelected);
-        mButtons2D=make2DArrayBtns(mNumBtn);
+        mButtons2D = make2DArrayBtns(mNumBtn);
         return view;
     }
 
@@ -72,7 +69,7 @@ public class FourInRowFragment extends Fragment {
 
     private void findElem(View view) {
         for (int i = 0; i < mButtons.length; i++) {
-                    mButtons[i]=view.findViewById(mResId[i]);
+            mButtons[i] = view.findViewById(mResId[i]);
         }
 
         mPlayerOneName = view.findViewById(R.id.score_player_one);
@@ -83,12 +80,12 @@ public class FourInRowFragment extends Fragment {
         mBtnStart = view.findViewById(R.id.btn_start);
     }
 
-    public Button[][] make2DArrayBtns(int numBtn){
-        Button[][] btnArray2D=new Button[5][5];
-        index=0;
-        for (int i = 0; i <5 ; i++) {
-            for (int j = 0; j <5 ; j++) {
-                btnArray2D[i][j]=mButtons[index];
+    public Button[][] make2DArrayBtns(int numBtn) {
+        Button[][] btnArray2D = new Button[5][5];
+        int index = 0;
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                btnArray2D[i][j] = mButtons[index];
                 index++;
             }
         }
@@ -102,7 +99,7 @@ public class FourInRowFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Player player;
-                if (counter % 2 == 0) {
+                if (mCounter % 2 == 0) {
                     enableHandle(mPlayerTwoText, mPlayerOneText);
                     player = mPlayerTwo;
                     mColumnSelected = Integer.parseInt(mPlayerOneText.getText().toString());
@@ -113,24 +110,32 @@ public class FourInRowFragment extends Fragment {
                     player = mPlayerOne;
                     mPlayerTwoText.setText("");
                 }
-                counter++;
+                mCounter++;
 
-               for (int i = mButtons2D.length - 1; i >= 0; i--) {
-                    if (!isSelected[i][mColumnSelected]) {
-                         isSelected[i][mColumnSelected]=true;
+                for (int i = mButtons2D.length - 1; i >= 0; i--) {
+                    if (mSelected[i][mColumnSelected-1]==0) {
                         if (player == mPlayerOne) {
-                            mButtons2D[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.red));
-                            mButtons2D[i][mColumnSelected].setTextColor(getResources().getColor(R.color.red));
+                            mSelected[i][mColumnSelected-1]=1;
+                            mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(R.color.red));
+                            mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(R.color.red));
                         } else {
-                            mButtons2D[i][mColumnSelected].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
-                            mButtons2D[i][mColumnSelected].setTextColor(getResources().getColor(R.color.beauty_yellow));
+                            mSelected[i][mColumnSelected-1]=2;
+                            mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
+                            mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(R.color.beauty_yellow));
                         }
                         break;
                     }
-
                 }
 
+                if(checkWinner()==1)
+                    Toast.makeText(getActivity(),mPlayerOne.getUserName()+" winner"
+                            ,Toast.LENGTH_LONG).show();
+                else if(checkWinner()==2)
+                    Toast.makeText(getActivity(),mPlayerTwo.getUserName()+" winner"
+                            ,Toast.LENGTH_LONG).show();
+
             }
+
 
             private void enableHandle(EditText playerEnable, EditText playerDisable) {
                 playerDisable.setEnabled(false);
@@ -151,9 +156,8 @@ public class FourInRowFragment extends Fragment {
     private <T extends View> int[] createId(T[] views, String commonPartOfId) {
         int[] IDs = new int[views.length];
         for (int i = 0; i < views.length; i++) {
-                int tempt = getId(commonPartOfId + i, R.id.class);
-                IDs[i] = tempt;
-
+            int tempt = getId(commonPartOfId + i, R.id.class);
+            IDs[i] = tempt;
         }
         return IDs;
     }
@@ -168,15 +172,58 @@ public class FourInRowFragment extends Fragment {
         }
     }
 
-    void isSelected(boolean[][] booleans){
-        for (int i = 0; i <booleans.length ; i++) {
-            for (int j = 0; j <booleans.length ; j++) {
-                booleans[i][j]=false;
+    void isSelected(boolean[][] booleans) {
+        for (int i = 0; i < booleans.length; i++) {
+            for (int j = 0; j < booleans.length; j++) {
+                booleans[i][j] = false;
             }
         }
     }
 
-    public void checkWinner() {
+    public int checkWinner() {
+        int counter;
+        int winner = 0;
+        for (int i = mButtons2D.length - 1; i >= 0; i--) {
+            counter = 0;
+            for (int j = 0; j < mButtons2D.length - 1; j++) {
+                if (mSelected[i][j] != 0
+                        && mSelected[i][j] == mSelected[i][j + 1]) {
+                    counter++;
+                    winner = mSelected[i][j];
+                }
+            }
+            if (counter == 3)
+                return winner;
+        }
+
+        for (int i = 0; i <mButtons2D.length - 1; i++) {
+            counter = 0;
+            for (int j = mButtons2D.length - 2; j >= 0;j--) {
+                if (mSelected[j][i] != 0
+                        && mSelected[j][i] == mSelected[j- 1][i]) {
+                    counter++;
+                    winner = mSelected[j][i];
+                }
+            }
+            if (counter == 3)
+                return winner;
+        }
+
+        for (int i = mButtons2D.length - 2; i >= 0; i--) {
+            counter = 0;
+            for (int j = 0; j < mButtons2D.length - 1; j++) {
+                if (mSelected[i][j] != 0
+                        && mSelected[i][j] == mSelected[i-1][j + 1]) {
+                    counter++;
+                    winner = mSelected[i][j];
+                }
+            }
+            if (counter == 3)
+                return winner;
+        }
+
+
+        return 0;
 
     }
 }
