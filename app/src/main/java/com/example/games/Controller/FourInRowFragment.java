@@ -15,21 +15,21 @@ import android.widget.Toast;
 
 import com.example.games.Model.Player;
 import com.example.games.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.lang.reflect.Field;
 
 public class FourInRowFragment extends Fragment {
-   private int mNumBtn = 25;
+    private int mNumBtn = 25;
     private TextView mPlayerOneName, mPlayerTwoName;
     private ImageButton mBtnGo, mBtnStart;
     private Button[] mButtons = new Button[mNumBtn];
     private int[] mResId = createId(mButtons, "btn_");
-    private boolean[][] isSelected = new boolean[mNumBtn][mNumBtn];
     private Button[][] mButtons2D;
-    private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
+    private Player mPlayerOne = new Player(), mPlayerTwo = new Player();
     private EditText mPlayerOneText, mPlayerTwoText;
-    private int mCounter = 0,mColumnSelected;
-    private int[][] mSelected=new int[5][5];
+    private int mCounter = 0, mColumnSelected;
+    private int[][] mSelected = new int[5][5];
 
     public FourInRowFragment() {
         // Required empty public constructor
@@ -48,7 +48,6 @@ public class FourInRowFragment extends Fragment {
         findElem(view);
         setPlayers();
         setListeners();
-        isSelected(isSelected);
         mButtons2D = make2DArrayBtns(mNumBtn);
         return view;
     }
@@ -68,6 +67,8 @@ public class FourInRowFragment extends Fragment {
     }
 
     private void findElem(View view) {
+
+        // Find Button
         for (int i = 0; i < mButtons.length; i++) {
             mButtons[i] = view.findViewById(mResId[i]);
         }
@@ -80,11 +81,14 @@ public class FourInRowFragment extends Fragment {
         mBtnStart = view.findViewById(R.id.btn_start);
     }
 
+    // convert Button[] to Button[][]
+
     public Button[][] make2DArrayBtns(int numBtn) {
-        Button[][] btnArray2D = new Button[5][5];
+        int sqrtNumBtn = (int) Math.sqrt(Double.parseDouble(numBtn + ""));
+        Button[][] btnArray2D = new Button[sqrtNumBtn][sqrtNumBtn];
         int index = 0;
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < btnArray2D.length; i++) {
+            for (int j = 0; j < btnArray2D.length; j++) {
                 btnArray2D[i][j] = mButtons[index];
                 index++;
             }
@@ -94,55 +98,6 @@ public class FourInRowFragment extends Fragment {
 
     private void setListeners() {
 
-
-        mBtnGo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Player player;
-                if (mCounter % 2 == 0) {
-                    enableHandle(mPlayerTwoText, mPlayerOneText);
-                    player = mPlayerTwo;
-                    mColumnSelected = Integer.parseInt(mPlayerOneText.getText().toString());
-                    mPlayerOneText.setText("");
-                } else {
-                    enableHandle(mPlayerOneText, mPlayerTwoText);
-                    mColumnSelected = Integer.parseInt(mPlayerTwoText.getText().toString());
-                    player = mPlayerOne;
-                    mPlayerTwoText.setText("");
-                }
-                mCounter++;
-
-                for (int i = mButtons2D.length - 1; i >= 0; i--) {
-                    if (mSelected[i][mColumnSelected-1]==0) {
-                        if (player == mPlayerOne) {
-                            mSelected[i][mColumnSelected-1]=1;
-                            mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(R.color.red));
-                            mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(R.color.red));
-                        } else {
-                            mSelected[i][mColumnSelected-1]=2;
-                            mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(R.color.beauty_yellow));
-                            mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(R.color.beauty_yellow));
-                        }
-                        break;
-                    }
-                }
-
-                if(checkWinner()==1)
-                    Toast.makeText(getActivity(),mPlayerOne.getUserName()+" winner"
-                            ,Toast.LENGTH_LONG).show();
-                else if(checkWinner()==2)
-                    Toast.makeText(getActivity(),mPlayerTwo.getUserName()+" winner"
-                            ,Toast.LENGTH_LONG).show();
-
-            }
-
-
-            private void enableHandle(EditText playerEnable, EditText playerDisable) {
-                playerDisable.setEnabled(false);
-                playerEnable.setEnabled(true);
-            }
-        });
-
         mBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,79 +106,138 @@ public class FourInRowFragment extends Fragment {
             }
         });
 
-    }
+        mBtnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-    private <T extends View> int[] createId(T[] views, String commonPartOfId) {
-        int[] IDs = new int[views.length];
-        for (int i = 0; i < views.length; i++) {
-            int tempt = getId(commonPartOfId + i, R.id.class);
-            IDs[i] = tempt;
-        }
-        return IDs;
-    }
+                if (mCounter % 2 == 0) {
+                    enableHandle(mPlayerTwoText, mPlayerOneText);
+                    // Player one
+                    try {
+                        mColumnSelected = getColumnSelected(mPlayerOneText);
+                        changeBgColorSelected(R.color.beauty_yellow,2);
+                    }catch (Exception e){
+                        returnSnackbar(R.string.error_out_band,v,R.color.red);
+                    }
+                } else {
+                    enableHandle(mPlayerOneText, mPlayerTwoText);
+                    // Player two
+                    try {
+                        mColumnSelected = getColumnSelected(mPlayerTwoText);
+                        changeBgColorSelected(R.color.red,1);
+                    }catch (Exception e){
+                        returnSnackbar(R.string.error_out_band,v,R.color.red);
+                    }
+                }
+                mCounter++;
 
-    private static int getId(String resourceName, Class<?> c) {
-        try {
-            Field idField = c.getDeclaredField(resourceName);
-            return idField.getInt(idField);
-        } catch (Exception e) {
-            throw new RuntimeException("No resource ID found for: "
-                    + resourceName + " / " + c, e);
-        }
-    }
+                if (checkWinner() == 1)
+                    returnSnackbar(mPlayerOne.getUserName()+" Winner",v,R.color.green_dark);
+                else if (checkWinner() == 2)
+                        returnSnackbar(mPlayerTwo.getUserName()+" Winner",v,R.color.green_dark);
 
-    void isSelected(boolean[][] booleans) {
-        for (int i = 0; i < booleans.length; i++) {
-            for (int j = 0; j < booleans.length; j++) {
-                booleans[i][j] = false;
             }
-        }
+
+
+            private void enableHandle(EditText playerEnable, EditText playerDisable) {
+                playerDisable.setEnabled(false);
+                playerEnable.setEnabled(true);
+            }
+
+        });
+
     }
 
-    public int checkWinner() {
-        int counter;
-        int winner = 0;
+    private void changeBgColorSelected(int colorId,int playerId) {
         for (int i = mButtons2D.length - 1; i >= 0; i--) {
-            counter = 0;
-            for (int j = 0; j < mButtons2D.length - 1; j++) {
-                if (mSelected[i][j] != 0
-                        && mSelected[i][j] == mSelected[i][j + 1]) {
-                    counter++;
-                    winner = mSelected[i][j];
-                }
+            if (mSelected[i][mColumnSelected - 1] == 0) {
+                mSelected[i][mColumnSelected - 1] = playerId;
+                mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(colorId));
+                mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(colorId));
+                break;
             }
-            if (counter == 3)
-                return winner;
+        }
+    }
+
+        private int getColumnSelected (EditText selectedColumnText){
+            int columnSelected = Integer.parseInt(selectedColumnText.getText().toString());
+            selectedColumnText.setText("");
+            return columnSelected;
         }
 
-        for (int i = 0; i <mButtons2D.length - 1; i++) {
-            counter = 0;
-            for (int j = mButtons2D.length - 2; j >= 0;j--) {
-                if (mSelected[j][i] != 0
-                        && mSelected[j][i] == mSelected[j- 1][i]) {
-                    counter++;
-                    winner = mSelected[j][i];
-                }
+        private <T extends View > int[] createId (T[]views, String commonPartOfId){
+            int[] IDs = new int[views.length];
+            for (int i = 0; i < views.length; i++) {
+                int tempt = getId(commonPartOfId + i, R.id.class);
+                IDs[i] = tempt;
             }
-            if (counter == 3)
-                return winner;
+            return IDs;
         }
 
-        for (int i = mButtons2D.length - 2; i >= 0; i--) {
-            counter = 0;
-            for (int j = 0; j < mButtons2D.length - 1; j++) {
-                if (mSelected[i][j] != 0
-                        && mSelected[i][j] == mSelected[i-1][j + 1]) {
-                    counter++;
-                    winner = mSelected[i][j];
-                }
+        private static int getId (String resourceName, Class < ?>c){
+            try {
+                Field idField = c.getDeclaredField(resourceName);
+                return idField.getInt(idField);
+            } catch (Exception e) {
+                throw new RuntimeException("No resource ID found for: "
+                        + resourceName + " / " + c, e);
             }
-            if (counter == 3)
-                return winner;
         }
 
+        public int checkWinner () {
+            int counter;
+            int winner = 0;
+            for (int i = mButtons2D.length - 1; i >= 0; i--) {
+                counter = 0;
+                for (int j = 0; j < mButtons2D.length - 1; j++) {
+                    if (mSelected[i][j] != 0
+                            && mSelected[i][j] == mSelected[i][j + 1]) {
+                        counter++;
+                        winner = mSelected[i][j];
+                    }
+                }
+                if (counter == 3)
+                    return winner;
+            }
 
-        return 0;
+            for (int i = 0; i < mButtons2D.length - 1; i++) {
+                counter = 0;
+                for (int j = mButtons2D.length - 1; j >= 0; j--) {
+                    if (mSelected[j][i] != 0
+                            && mSelected[j][i] == mSelected[j - 1][i]) {
+                        counter++;
+                        winner = mSelected[j][i];
+                    }
+                }
+                if (counter == 3)
+                    return winner;
+            }
+
+            for (int i = mButtons2D.length - 2; i >= 0; i--) {
+                counter = 0;
+                for (int j = 0; j < mButtons2D.length - 1; j++) {
+                    if (mSelected[i][j] != 0
+                            && mSelected[i][j] == mSelected[i - 1][j + 1]) {
+                        counter++;
+                        winner = mSelected[i][j];
+                    }
+                }
+                if (counter == 3)
+                    return winner;
+            }
+            return 0;
+        }
+
+        private void returnSnackbar(int msg,View view,int color){
+            Snackbar snackbar=Snackbar.make(view,msg,Snackbar.LENGTH_LONG);
+            snackbar.setActionTextColor(getResources().getColor(color));
+            snackbar.show();
+        }
+
+    private void returnSnackbar(String msg,View view,int color){
+        Snackbar snackbar=Snackbar.make(view,msg,Snackbar.LENGTH_LONG);
+        snackbar.setActionTextColor(getResources().getColor(color));
+        snackbar.show();
+    }
 
     }
-}
