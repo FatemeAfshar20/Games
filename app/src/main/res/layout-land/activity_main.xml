@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controller.GamesFragment">
+
+
+    <TextView
+        android:id="@+id/game"
+        android:layout_width="272dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/txt_game"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_ticetactoe"
+        android:layout_width="151dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/game"
+        android:layout_toRightOf="@+id/game"
+        android:layout_weight="1"
+        android:background="@drawable/green_light_stroke"
+        android:text="@string/btn_tic_tac_toe" />
+
+    <Button
+        android:id="@+id/btn_four_in_row"
+        android:layout_width="151dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btn_ticetactoe"
+        android:layout_toRightOf="@+id/btn_ticetactoe"
+        android:layout_weight="1"
+        android:background="@drawable/green_dark_stroke"
+        android:text="@string/btn_row_a_in_4" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_ticetactoe">
+
+    </FrameLayout>
+
+</RelativeLayout>

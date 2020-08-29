@@ -16,13 +16,9 @@ import java.lang.reflect.Field;
 
 public class GamesActivity extends AppCompatActivity {
     FragmentManager mFragmentManager = getSupportFragmentManager();
-    //GamesFragment mGamesFragment=new GamesFragment();
     TicTacToeFragment mTicTacToeFragment = new TicTacToeFragment();
-    FourInRowFragment mFourInRowFragment = new FourInRowFragment();
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    Fragment fragment;
+
     public Button mBtnTicTacToe, mBtnFourInRow;
-    boolean flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +26,8 @@ public class GamesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findElem();
         setListener();
-        setFragment(R.id.game_container,mTicTacToeFragment);
-        setFragment(R.id.game_container,mFourInRowFragment);
+        setFragment(R.id.fragment_container,mTicTacToeFragment);
     }
-
 
     public void findElem() {
         mBtnTicTacToe = findViewById(R.id.btn_ticetactoe);
@@ -44,25 +38,20 @@ public class GamesActivity extends AppCompatActivity {
         mBtnFourInRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragment(mFourInRowFragment, mTicTacToeFragment);
+                mFragmentManager.beginTransaction().replace(R.id.fragment_container,new FourInRowFragment()).commit();
             }
         });
 
         mBtnTicTacToe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFragment(mTicTacToeFragment,mFourInRowFragment);
+                mFragmentManager.beginTransaction().replace(R.id.fragment_container,new TicTacToeFragment()).commit();
             }
         });
     }
 
-    private void showFragment(Fragment fragmentShow,Fragment fragmentInShow) {
-        fragmentInShow.getView().setVisibility(View.INVISIBLE);
-        fragmentShow.getView().setVisibility(View.VISIBLE);
-    }
-
     private void setFragment(int idContainer, Fragment fragment) {
-     Fragment   fragmentTest=mFragmentManager.findFragmentById(idContainer);
+        Fragment   fragmentTest=mFragmentManager.findFragmentById(idContainer);
         if (fragmentTest == null) {
             mFragmentManager.beginTransaction().add(idContainer, fragment).commit();
         }
