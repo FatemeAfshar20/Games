@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.Activity.UserLoginActivity"
-    android:orientation="horizontal">
+    tools:context=".Controller.Activity.SettingActivity">
 
     <FrameLayout
-        android:id="@+id/user_login_Fragment"
+        android:id="@+id/setting_frag_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

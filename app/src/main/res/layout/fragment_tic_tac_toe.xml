@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d4e8cd"
-    tools:context=".Controller.TicTacToeFragment">
+    tools:context=".Controller.Fragment.TicTacToeFragment">
 
 
     <TextView
@@ -17,7 +17,7 @@
         android:gravity="center"
         android:text="@string/game_name_tic"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="@dimen/font_size_port" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/score_player_one"
+            android:id="@+id/player_one_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -36,14 +36,14 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/score_player_two"
+            android:id="@+id/player_two_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:padding="10dp"
             android:text="@string/score_player_one"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/font_size_port" />
 
     </LinearLayout>
 

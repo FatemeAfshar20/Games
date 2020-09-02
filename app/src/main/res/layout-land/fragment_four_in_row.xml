@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e2e2e2"
-    tools:context=".Controller.TicTacToeFragment">
+    tools:context=".Controller.Fragment.TicTacToeFragment">
 
 
     <TextView
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:text="@string/game_name_row"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/font_size_land" />
 
     <ImageButton
         android:id="@+id/btn_go"
@@ -59,14 +59,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/score_player_two"
+            android:id="@+id/player_two_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:padding="10dp"
             android:text="@string/score_player_one"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_land" />
 
         <EditText
             android:id="@+id/player_one_column"
@@ -81,14 +81,14 @@
             tools:visibility="visible" />
 
         <TextView
-            android:id="@+id/score_player_one"
+            android:id="@+id/player_one_name"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:padding="10dp"
             android:text="@string/player_two"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="@dimen/font_size_land" />
 
         <EditText
             android:id="@+id/player_two_column"

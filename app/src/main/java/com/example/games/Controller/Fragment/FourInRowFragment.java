@@ -1,4 +1,4 @@
-package com.example.games.Controller;
+package com.example.games.Controller.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -76,8 +76,8 @@ public class FourInRowFragment extends Fragment {
             mButtons[i] = view.findViewById(mResId[i]);
         }
 
-        mPlayerOneName = view.findViewById(R.id.score_player_one);
-        mPlayerTwoName = view.findViewById(R.id.score_player_two);
+        mPlayerOneName = view.findViewById(R.id.player_one_name);
+        mPlayerTwoName = view.findViewById(R.id.player_two_name);
         mPlayerOneText = view.findViewById(R.id.player_one_column);
         mPlayerTwoText = view.findViewById(R.id.player_two_column);
         mBtnGo = view.findViewById(R.id.btn_go);

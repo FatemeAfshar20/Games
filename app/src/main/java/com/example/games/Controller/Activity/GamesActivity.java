@@ -1,24 +1,25 @@
-package com.example.games.Controller;
+package com.example.games.Controller.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.SurfaceControl;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.games.Controller.Fragment.FourInRowFragment;
+import com.example.games.Controller.Fragment.TicTacToeFragment;
 import com.example.games.R;
-
-import java.lang.reflect.Field;
+import com.google.android.material.button.MaterialButton;
 
 public class GamesActivity extends AppCompatActivity {
     FragmentManager mFragmentManager = getSupportFragmentManager();
     TicTacToeFragment mTicTacToeFragment = new TicTacToeFragment();
 
-    public Button mBtnTicTacToe, mBtnFourInRow;
+    private Button mBtnTicTacToe, mBtnFourInRow;
+    private MaterialButton mBtnSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class GamesActivity extends AppCompatActivity {
     public void findElem() {
         mBtnTicTacToe = findViewById(R.id.btn_ticetactoe);
         mBtnFourInRow = findViewById(R.id.btn_four_in_row);
+        mBtnSetting=findViewById(R.id.btn_setting);
     }
 
     public void setListener() {
@@ -46,6 +48,14 @@ public class GamesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mFragmentManager.beginTransaction().replace(R.id.fragment_container,new TicTacToeFragment()).commit();
+            }
+        });
+
+        mBtnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(GamesActivity.this,SettingActivity.class);
+                startActivity(intent);
             }
         });
     }

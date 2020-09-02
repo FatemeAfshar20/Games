@@ -3,21 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Controller.GamesFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Controller.Fragment.GamesFragment">
 
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="3dp"
+        android:text="@string/setting"
+        android:textAllCaps="false"
+        />
 
     <TextView
         android:id="@+id/game"
-        android:layout_width="match_parent"
+        android:layout_width="283dp"
         android:layout_height="50dp"
-        android:layout_weight="1"
-        android:text="@string/txt_game"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        android:layout_marginTop="3dp"
+        android:layout_margin="3dp"
         android:background="@color/colorPrimary"
-        />
+        android:gravity="center"
+        android:text="@string/txt_game"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_land" />
 
     <LinearLayout
         android:layout_width="match_parent"

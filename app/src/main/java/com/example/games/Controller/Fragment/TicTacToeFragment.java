@@ -1,9 +1,10 @@
-package com.example.games.Controller;
+package com.example.games.Controller.Fragment;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,13 +21,19 @@ import java.lang.reflect.Field;
 
 public class TicTacToeFragment extends Fragment {
 
+    public static final String EXTRA_BUTTON_COLORS = "com.example.games.Controller.Button colors";
+    public static final String EXTRA_ENABLE_STATE = "com.example.games.Controller.Enable state";
     private TextView mPlayerOneName, mPlayerTwoName;
     private Button mBtnRefresh;
     private Button[] mButtons = new Button[9];
-    private int[] mResId = createId(mButtons, "img_");
-    private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
     private ViewGroup mBtnsLay;
+    private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
+    private int[] mResId = createId(mButtons, "img_");
     private int mCounter = 0;
+
+    // for save Instance
+    private int[] mDrawables=new int[9];
+    private boolean[] mEnableState=new boolean[9];
 
     public TicTacToeFragment() {
         // Required empty public constructor
@@ -44,8 +51,33 @@ public class TicTacToeFragment extends Fragment {
         findElem(view);
         setListeners();
         setPlayers();
+        setInstanceState(savedInstanceState);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        for (int i = 0; i <mButtons.length ; i++) {
+            mDrawables=mButtons[i].getDrawableState();
+            if(mButtons[i].getSolidColor()!=getResources().getColor(R.color.yellow_green))
+                mEnableState[i]=false;
+        }
+
+        outState.putIntArray(EXTRA_BUTTON_COLORS,mDrawables);
+        outState.putBooleanArray(EXTRA_ENABLE_STATE,mEnableState);
+    }
+
+    private void setInstanceState(Bundle bundle){
+        if(bundle!=null){
+           int[] colors= bundle.getIntArray(EXTRA_BUTTON_COLORS);
+            for (int i = 0; i < colors.length; i++) {
+                mButtons[i].setBackground(getResources().getDrawable(colors[i]));
+            }
+        }
+
     }
 
     private void setPlayers() {
@@ -67,8 +99,8 @@ public class TicTacToeFragment extends Fragment {
             mButtons[i] = view.findViewById(mResId[i]);
         }
 
-        mPlayerOneName = view.findViewById(R.id.score_player_one);
-        mPlayerTwoName = view.findViewById(R.id.score_player_two);
+        mPlayerOneName = view.findViewById(R.id.player_one_name);
+        mPlayerTwoName = view.findViewById(R.id.player_two_name);
 
         mBtnRefresh = view.findViewById(R.id.btn_refresh);
 
@@ -149,11 +181,6 @@ public class TicTacToeFragment extends Fragment {
         }
     }
 
-    public void returnSnackbar(String msg) {
-        Snackbar snackbar = Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG);
-        snackbar.show();
-    }
-
     private int calculateScore(Player player) {
         int score = 0;
         if (inRow(mButtons[0].getBackground(), mButtons[1].getBackground(), mButtons[2].getBackground(), player.getImage())) {
@@ -201,5 +228,10 @@ public class TicTacToeFragment extends Fragment {
 
         mBtnRefresh.setVisibility(View.GONE);
         mBtnsLay.setVisibility(View.VISIBLE);
+    }
+
+    public void returnSnackbar(String msg) {
+        Snackbar snackbar = Snackbar.make(getView(), msg, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

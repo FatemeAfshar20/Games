@@ -1,4 +1,4 @@
-package com.example.games.Controller;
+package com.example.games.Controller.Fragment;
 
 import android.os.Bundle;
 
