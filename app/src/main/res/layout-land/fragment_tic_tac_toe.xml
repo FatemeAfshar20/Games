@@ -27,7 +27,7 @@
         android:layout_marginLeft="21dp"
         android:layout_toEndOf="@+id/game_name"
         android:layout_toRightOf="@+id/game_name"
-        android:padding="10dp"
+        android:padding="5dp"
         android:text="@string/player_two"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size_land" />
@@ -42,7 +42,7 @@
         android:layout_toEndOf="@+id/player_one_name"
         android:layout_toRightOf="@+id/player_one_name"
         android:layout_weight="1"
-        android:padding="10dp"
+        android:padding="5dp"
         android:text="@string/score_player_one"
         android:textColor="@color/black"
         android:textSize="@dimen/font_size_land" />

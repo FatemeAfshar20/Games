@@ -57,6 +57,17 @@
         android:background="@drawable/green_dark_stroke"
         android:text="@string/btn_row_a_in_4" />
 
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="3dp"
+        android:text="@string/setting"
+        android:textAllCaps="false"
+        />
+
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"

@@ -2,7 +2,7 @@ package com.example.games.Controller.Activity;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.games.Controller.Fragment.SingleFragment;
+import com.example.games.Controller.SingleFragment;
 import com.example.games.Controller.Fragment.UserLoginFragment;
 import com.example.games.R;
 

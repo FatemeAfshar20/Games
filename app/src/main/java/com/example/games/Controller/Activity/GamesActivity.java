@@ -21,6 +21,8 @@ public class GamesActivity extends AppCompatActivity {
     private Button mBtnTicTacToe, mBtnFourInRow;
     private MaterialButton mBtnSetting;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,14 +42,18 @@ public class GamesActivity extends AppCompatActivity {
         mBtnFourInRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFragmentManager.beginTransaction().replace(R.id.fragment_container,new FourInRowFragment()).commit();
+                mFragmentManager.beginTransaction().
+                        replace(R.id.fragment_container,
+                                new FourInRowFragment()).commit();
             }
         });
 
         mBtnTicTacToe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFragmentManager.beginTransaction().replace(R.id.fragment_container,new TicTacToeFragment()).commit();
+                mFragmentManager.beginTransaction().
+                        replace(R.id.fragment_container,
+                                new TicTacToeFragment()).commit();
             }
         });
 
@@ -66,14 +72,4 @@ public class GamesActivity extends AppCompatActivity {
             mFragmentManager.beginTransaction().add(idContainer, fragment).commit();
         }
     }
-
-/*    public void setFragmentGame(){
-        if(mGamesFragment.mTicTacToeSelect){
-            TicTacToeFragment mTicTacToeFragment=new TicTacToeFragment();
-                mFragmentManager.beginTransaction().add(R.id.game_container,mTicTacToeFragment);
-        }else if(mGamesFragment.mFourInRowSelect){
-            FourInRowFragment mFourInRowFragment=new FourInRowFragment();
-                mFragmentManager.beginTransaction().add(R.id.game_container,mFourInRowFragment);
-        }
-    }*/
 }

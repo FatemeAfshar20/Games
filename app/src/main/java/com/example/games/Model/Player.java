@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Player implements Serializable {
     private UUID mId=UUID.randomUUID();
     private  String mUserName;
-    private int mScore=0;
+    private static int mScore=0;
     private Drawable mImage;
     private  int mColorID;
 
@@ -49,11 +49,11 @@ public class Player implements Serializable {
         mUserName = userName;
     }
 
-    public int getScore() {
+    public static int  getScore() {
         return mScore;
     }
 
-    public void setScore(int score) {
+    public static void setScore(int score) {
         mScore = score;
     }
 

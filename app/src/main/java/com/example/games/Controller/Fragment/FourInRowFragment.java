@@ -3,6 +3,7 @@ package com.example.games.Controller.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,6 +21,9 @@ import com.google.android.material.snackbar.Snackbar;
 import java.lang.reflect.Field;
 
 public class FourInRowFragment extends Fragment {
+    public static final String BUNDLE_COLOR_ID = "Color Id";
+    public static final String BUNDLE_COUNTER = "counter";
+    public static final String BUNDLE_START_VISIBILITY = "Start Visibility";
     private int mNumBtn = 25;
     int mSqrtNumBtn = (int) Math.sqrt(Double.parseDouble(mNumBtn + ""));
     private TextView mPlayerOneName, mPlayerTwoName;
@@ -33,6 +37,7 @@ public class FourInRowFragment extends Fragment {
     private int[] mResId = createId(mButtons, "btn_");
     private int mCounter = 0, mColumnSelected;
     private int[][] mSelected = new int[mSqrtNumBtn][mSqrtNumBtn];
+    private int[] mColorId=new int[mNumBtn];
 
     public FourInRowFragment() {
         // Required empty public constructor
@@ -51,7 +56,9 @@ public class FourInRowFragment extends Fragment {
         findElem(view);
         setPlayers();
         setListeners();
+      saveInstance(savedInstanceState);
         mButtons2D = make2DArrayBtns(mSqrtNumBtn);
+       // setRetainInstance(true);
         return view;
     }
 
@@ -115,17 +122,7 @@ public class FourInRowFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (mCounter % 2 == 0) {
-                    enableHandle(mPlayerTwoText, mPlayerOneText);
-                    // Player one
-                    if (isValid(mPlayerOneText))
-                        changeBgColorSelected(R.color.beauty_yellow, 2);
-                } else {
-                    enableHandle(mPlayerOneText, mPlayerTwoText);
-                    // Player two
-                    if (isValid(mPlayerTwoText))
-                        changeBgColorSelected(R.color.red, 1);
-                }
+                setPlayer();
                 mCounter++;
 
                 if (checkWinner() == 1) {
@@ -135,10 +132,6 @@ public class FourInRowFragment extends Fragment {
                 } else if (mCounter == mNumBtn) {
                     equLGame();
                 }
-            }
-            private void enableHandle(EditText playerEnable, EditText playerDisable) {
-                playerDisable.setEnabled(false);
-                playerEnable.setEnabled(true);
             }
         });
 
@@ -151,13 +144,54 @@ public class FourInRowFragment extends Fragment {
 
     }
 
-    private boolean isValid(EditText playerOneText) {
-        try {
-            mColumnSelected = getColumnSelected(playerOneText);
-            return true;
-        } catch (Exception e) {
-            returnSnackbar(R.string.error_out_band, R.color.red);
+    private void setPlayer() {
+        if (mCounter % 2 == 0) {
+            enableHandle(mPlayerTwoText, mPlayerOneText);
+            // Player one
+            if (isValid(mPlayerOneText))
+                changeBgColorSelected(R.color.beauty_yellow, 2);
+        } else {
+            enableHandle(mPlayerOneText, mPlayerTwoText);
+            // Player two
+            if (isValid(mPlayerTwoText))
+                changeBgColorSelected(R.color.red, 1);
         }
+    }
+
+    private void enableHandle(EditText playerEnable, EditText playerDisable) {
+        playerDisable.setEnabled(false);
+        playerEnable.setEnabled(true);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_COUNTER,mCounter);
+        outState.putInt(BUNDLE_START_VISIBILITY,mBtnStart.getVisibility());
+        outState.putIntArray(BUNDLE_COLOR_ID,mColorId);
+    }
+
+    private void saveInstance(Bundle bundle){
+        if(bundle!=null) {
+            int[] colors = bundle.getIntArray(BUNDLE_COLOR_ID);
+
+            for (int i = colors.length-1; i >=0; i--) {
+                if (colors[i] != 0)
+                    mButtons[i].setBackgroundColor(colors[i]);
+            }
+
+            mCounter=bundle.getInt(BUNDLE_COUNTER)+1;
+            mBtnStart.setVisibility(bundle.getInt(BUNDLE_START_VISIBILITY));
+        }
+    }
+
+    private boolean isValid(EditText columnSelected) {
+        mColumnSelected=getColumnSelected(columnSelected)-1;
+            if(mColumnSelected<Math.sqrt(mNumBtn) && mColumnSelected>=0){
+                return true;
+            }
+        else
+            returnSnackbar(R.string.error_out_band, R.color.red);
         return false;
     }
 
@@ -203,9 +237,12 @@ public class FourInRowFragment extends Fragment {
                 mButtons2D[i][j].setBackgroundColor(getResources().getColor(R.color.green_dark));
             }
         }
+        mCounter=0;
         handleElemRefreshGame();
         mPlayerOneName.setText(mPlayerOne.getUserName() + "");
         mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");
+        mPlayerOneText.setEnabled(false);
+        mPlayerTwoText.setEnabled(false);
 
         mPlayerOneName.setTextColor(Color.BLACK);
         mPlayerTwoName.setTextColor(Color.BLACK);
@@ -214,10 +251,11 @@ public class FourInRowFragment extends Fragment {
 
     private void changeBgColorSelected(int colorId, int playerId) {
         for (int i = mButtons2D.length - 1; i >= 0; i--) {
-            if (mSelected[i][mColumnSelected - 1] == 0) {
-                mSelected[i][mColumnSelected - 1] = playerId;
-                mButtons2D[i][mColumnSelected - 1].setBackgroundColor(getResources().getColor(colorId));
-                mButtons2D[i][mColumnSelected - 1].setTextColor(getResources().getColor(colorId));
+            if (mSelected[i][mColumnSelected] == 0) {
+                mSelected[i][mColumnSelected] = playerId;
+                mButtons2D[i][mColumnSelected].setBackgroundColor(getResources().getColor(colorId));
+                mColorId[i]=colorId;
+                mButtons2D[i][mColumnSelected].setTextColor(getResources().getColor(colorId));
                 break;
             }
         }

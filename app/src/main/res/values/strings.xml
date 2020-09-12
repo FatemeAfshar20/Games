@@ -16,6 +16,7 @@
     <string name="score_player_two">Player Two  </string>
     <string name="refresh">Do you want to play again?</string>
     <string name="column">column</string>
-    <string name="error_out_band">Please enter number less than table row or column</string>
+    <string name="error_out_band">Please enter number less than table row or column And more than Zero</string>
+    <string name="error_empty">Enter a number Please</string>
     <string name="setting">Setting</string>
 </resources>

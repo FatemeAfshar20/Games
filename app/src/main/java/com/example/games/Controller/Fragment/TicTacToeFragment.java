@@ -21,19 +21,18 @@ import java.lang.reflect.Field;
 
 public class TicTacToeFragment extends Fragment {
 
-    public static final String EXTRA_BUTTON_COLORS = "com.example.games.Controller.Button colors";
-    public static final String EXTRA_ENABLE_STATE = "com.example.games.Controller.Enable state";
+    public static final String BUNDLE_BUTTON_IMAGE = "Button colors";
+    public static final String BUNDLE_COUNTER = "Counter";
+
     private TextView mPlayerOneName, mPlayerTwoName;
     private Button mBtnRefresh;
     private Button[] mButtons = new Button[9];
+    private boolean[] mIsSelected=new boolean[9];
     private ViewGroup mBtnsLay;
     private Player mPlayerOne = new Player(),mPlayerTwo = new Player();
     private int[] mResId = createId(mButtons, "img_");
+    private int[] mImageId=new int[9];
     private int mCounter = 0;
-
-    // for save Instance
-    private int[] mDrawables=new int[9];
-    private boolean[] mEnableState=new boolean[9];
 
     public TicTacToeFragment() {
         // Required empty public constructor
@@ -51,47 +50,9 @@ public class TicTacToeFragment extends Fragment {
         findElem(view);
         setListeners();
         setPlayers();
-        setInstanceState(savedInstanceState);
+      setInstanceState(savedInstanceState);
         // Inflate the layout for this fragment
         return view;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        for (int i = 0; i <mButtons.length ; i++) {
-            mDrawables=mButtons[i].getDrawableState();
-            if(mButtons[i].getSolidColor()!=getResources().getColor(R.color.yellow_green))
-                mEnableState[i]=false;
-        }
-
-        outState.putIntArray(EXTRA_BUTTON_COLORS,mDrawables);
-        outState.putBooleanArray(EXTRA_ENABLE_STATE,mEnableState);
-    }
-
-    private void setInstanceState(Bundle bundle){
-        if(bundle!=null){
-           int[] colors= bundle.getIntArray(EXTRA_BUTTON_COLORS);
-            for (int i = 0; i < colors.length; i++) {
-                mButtons[i].setBackground(getResources().getDrawable(colors[i]));
-            }
-        }
-
-    }
-
-    private void setPlayers() {
-        // input username from intent
-        mPlayerOne.setUserName(getActivity().getIntent().getStringExtra(UserLoginFragment.EXTRA_PLAYER_ONE_USERNAME));
-        mPlayerTwo.setUserName(getActivity().getIntent().getStringExtra(UserLoginFragment.EXTRA_PLAYER_TWO_USERNAME));
-
-        //set Image
-        mPlayerOne.setImage(getResources().getDrawable(R.drawable.cicle_image));
-        mPlayerTwo.setImage(getResources().getDrawable(R.drawable.close_image));
-
-        // set Player Name in TextView
-        mPlayerOneName.setText(mPlayerOne.getUserName() + "");
-        mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");
     }
 
     private void findElem(View view) {
@@ -117,12 +78,13 @@ public class TicTacToeFragment extends Fragment {
                     mCounter++;
                     if (mCounter % 2 == 0) {
                         mButtons[finalI].setBackground(mPlayerOne.getImage());
-
+                        mImageId[finalI]=1;
                     } else {
                         mButtons[finalI].setBackground(mPlayerTwo.getImage());
+                        mImageId[finalI]=2;
                     }
                     mButtons[finalI].setEnabled(false);
-
+                    mIsSelected[finalI]=true;
                     if (mCounter == mButtons.length) {
                         checkWinner();
                         mBtnRefresh.setVisibility(View.VISIBLE);
@@ -139,6 +101,42 @@ public class TicTacToeFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray(BUNDLE_BUTTON_IMAGE,mImageId);
+        outState.putInt(BUNDLE_COUNTER,mCounter);
+
+    }
+
+    private void setInstanceState(Bundle bundle){
+        if(bundle!=null) {
+            mImageId = bundle.getIntArray(BUNDLE_BUTTON_IMAGE);
+            for (int i = 0; i < mImageId.length; i++) {
+                if(mImageId[i]==1)
+                    mButtons[i].setBackground(getResources().getDrawable(R.drawable.cicle_image));
+                else if(mImageId[i]==2)
+                    mButtons[i].setBackground(getResources().getDrawable(R.drawable.close_image));
+            }
+
+            mCounter=bundle.getInt(BUNDLE_COUNTER);
+        }
+    }
+
+    private void setPlayers() {
+        // input username from intent
+        mPlayerOne.setUserName(getActivity().getIntent().getStringExtra(UserLoginFragment.EXTRA_PLAYER_ONE_USERNAME));
+        mPlayerTwo.setUserName(getActivity().getIntent().getStringExtra(UserLoginFragment.EXTRA_PLAYER_TWO_USERNAME));
+
+        //set Image
+        mPlayerOne.setImage(getResources().getDrawable(R.drawable.cicle_image));
+        mPlayerTwo.setImage(getResources().getDrawable(R.drawable.close_image));
+
+        // set Player Name in TextView
+        mPlayerOneName.setText(mPlayerOne.getUserName() + "");
+        mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");
     }
 
     private <T extends View> int[] createId(View[] views, String commonPartOfId) {
@@ -166,11 +164,15 @@ public class TicTacToeFragment extends Fragment {
 
             mPlayerOneName.setText(mPlayerOneName.getText() + "   Winner!!");
             mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
+
+            UserLoginFragment.setmScorePlayerOne(UserLoginFragment.getmScorePlayerOne()+1);
         } else if (calculateScore(mPlayerOne) < calculateScore(mPlayerTwo)) {
             returnSnackbar("Horaaaaaa " + mPlayerTwo.getUserName() + " is Winner");
 
             mPlayerTwoName.setText(mPlayerTwoName.getText() + "   Winner!!");
             mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
+
+            UserLoginFragment.setmScorePlayerTwo(UserLoginFragment.getmScorePlayerTwo()+1);
         } else {
             returnSnackbar(mPlayerOne.getUserName() + " and " + mPlayerTwo.getUserName() + " are Winner");
 
@@ -178,6 +180,9 @@ public class TicTacToeFragment extends Fragment {
             mPlayerTwoName.setText(mPlayerTwoName.getText() + "   Winner!!");
             mPlayerOneName.setTextColor(getResources().getColor(R.color.red));
             mPlayerTwoName.setTextColor(getResources().getColor(R.color.red));
+
+            UserLoginFragment.setmScorePlayerOne(UserLoginFragment.getmScorePlayerOne()+1);
+            UserLoginFragment.setmScorePlayerTwo(UserLoginFragment.getmScorePlayerTwo()+1);
         }
     }
 
@@ -217,8 +222,6 @@ public class TicTacToeFragment extends Fragment {
         }
 
         mCounter = 0;
-        mPlayerOne.setScore(0);
-        mPlayerTwo.setScore(0);
 
         mPlayerOneName.setText(mPlayerOne.getUserName() + "");
         mPlayerTwoName.setText(mPlayerTwo.getUserName() + "");

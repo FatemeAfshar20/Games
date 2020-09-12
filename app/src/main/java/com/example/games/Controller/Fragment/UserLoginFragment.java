@@ -21,10 +21,29 @@ public class UserLoginFragment extends Fragment {
     public static final String EXTRA_PLAYER_TWO_USERNAME = "com.example.games.Controller.Fragment.User Name Two";
     public static final String BUNDLE_USERNAME_ONE = "UserName One";
     public static final String BUNDLE_USERNAME_TWO = "UserName Two";
-    SparkButton mBtnGo;
-    EditText mNameOneText,mNameTwoText;
+    private SparkButton mBtnGo;
+    private EditText mNameOneText, mNameTwoText;
 
-    public UserLoginFragment(){
+    public static int getmScorePlayerOne() {
+        return mScorePlayerOne;
+    }
+
+    public static void setmScorePlayerOne(int mScorePlayerOne) {
+        UserLoginFragment.mScorePlayerOne = mScorePlayerOne;
+    }
+
+    public static int getmScorePlayerTwo() {
+        return mScorePlayerTwo;
+    }
+
+    public static void setmScorePlayerTwo(int mScorePlayerTwo) {
+        UserLoginFragment.mScorePlayerTwo = mScorePlayerTwo;
+    }
+
+    private static int mScorePlayerOne = 0;
+    private static int mScorePlayerTwo = 0;
+
+    public UserLoginFragment() {
 
     }
 
@@ -36,31 +55,31 @@ public class UserLoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_user_login,container,false);
+        View view = inflater.inflate(R.layout.fragment_user_login, container, false);
         findElem(view);
         setListener();
         saveInstance(savedInstanceState);
         return view;
     }
 
-    private void findElem(View view){
-        mBtnGo=view.findViewById(R.id.btn_go);
-        mNameOneText=view.findViewById(R.id.player_one);
-        mNameTwoText=view.findViewById(R.id.player_two);
+    private void findElem(View view) {
+        mBtnGo = view.findViewById(R.id.btn_go);
+        mNameOneText = view.findViewById(R.id.player_one);
+        mNameTwoText = view.findViewById(R.id.player_two);
     }
 
-    private void setListener(){
+    private void setListener() {
         mBtnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkPlayer(mNameOneText.getText().toString()) &&
-                        checkPlayer(mNameTwoText.getText().toString())){
+                if (checkPlayer(mNameOneText.getText().toString()) &&
+                        checkPlayer(mNameTwoText.getText().toString())) {
 
-                        Intent intent = new Intent(getActivity(), GamesActivity.class);
-                        intent.putExtra(EXTRA_PLAYER_ONE_USERNAME, mNameOneText.getText().toString());
-                        intent.putExtra(EXTRA_PLAYER_TWO_USERNAME, mNameTwoText.getText().toString());
-                        startActivity(intent);
-                    }else
+                    Intent intent = new Intent(getActivity(), GamesActivity.class);
+                    intent.putExtra(EXTRA_PLAYER_ONE_USERNAME, mNameOneText.getText().toString());
+                    intent.putExtra(EXTRA_PLAYER_TWO_USERNAME, mNameTwoText.getText().toString());
+                    startActivity(intent);
+                } else
                     returnToast(R.string.toast_wrong);
             }
         });
@@ -70,12 +89,12 @@ public class UserLoginFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         getActivity();
-        outState.getString(BUNDLE_USERNAME_ONE,mNameOneText.getText().toString());
-        outState.getString(BUNDLE_USERNAME_TWO,mNameTwoText.getText().toString());
+        outState.getString(BUNDLE_USERNAME_ONE, mNameOneText.getText().toString());
+        outState.getString(BUNDLE_USERNAME_TWO, mNameTwoText.getText().toString());
     }
 
-    public void saveInstance(Bundle bundle){
-        if(bundle!=null){
+    public void saveInstance(Bundle bundle) {
+        if (bundle != null) {
             mNameOneText.setText(bundle.getString(BUNDLE_USERNAME_ONE));
             mNameTwoText.setText(bundle.getString(BUNDLE_USERNAME_TWO));
         }
